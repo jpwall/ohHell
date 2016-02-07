@@ -30,10 +30,10 @@ function getProbTrick(card, trump, totCards) {
     }
 
     if (suit == trump) {
-	number = 1 / (1 + ; //TODO: FINISH WORKING ON LOGISTIC EQUATION FOR BOTH - MAKE IT WORK
+	number = 1 / (1 + Math.pow(Math.E, ((totCards * 4) / 52) * (number - 15)));
     }
     else {
-	number = 1 / ;
+	number = 1 / (1 + Math.pow(Math.E, ((totCards / 52) * (number - 15))));
     }
     
     console.log(number);
