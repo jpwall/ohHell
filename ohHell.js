@@ -30,12 +30,18 @@ function getProbTrick(card, trump, totCards) {
     }
 
     if (suit == trump) {
-	number = 1 / (1 + Math.pow(Math.E, ((totCards * 4) / 52) * (number - 15)));
+	number = 1 / (1 + Math.pow(Math.E, -((52 / totCards) * (number - 7))));
     }
     else {
-	number = 1 / (1 + Math.pow(Math.E, ((totCards / 52) * (number - 15))));
+	number = 1 / (1 + Math.pow(Math.E, -((52 / (totCards * 4)) * (number - 7))));
     }
-    
+
+    if (number >= 0.9) {
+	number = 1;
+    }
+    else {
+	number = 0;
+    }
     console.log(number);
 }
 
