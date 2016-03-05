@@ -1,4 +1,4 @@
-var hand = ["6S", "5S", "AH", "KS", "AS", "JC", "2C", "6D", "4D", "QD"];
+var hand = ["6S", "5S", "AH", "KS", "AS", "JC", "2C", "6D", "4D", "QH"];
 
 // card represents a card in the hand like 6H (the 6 of hearts)
 // trump represents the trump suit represented by S, C, H, D (spades, clubs, hearts, diamonds)
@@ -8,6 +8,7 @@ function getProbTrick(card, trump, totCards) {
     suit = cardSplit[1];
     number = cardSplit[0];
 
+    // assign values to face cards
     if (number == 'T') {
 	number = 10;
     }
@@ -22,13 +23,9 @@ function getProbTrick(card, trump, totCards) {
     }
     if (number == 'A') {
 	number = 14;
-	/*
-	if (trump == suit) {
-	    number = *best value*;
-	}
-	*/
     }
 
+    // main algorithms for deciding percentage probability of getting a trick
     if (suit == trump) {
 	number = 1 / (1 + Math.pow(Math.E, -((52 / totCards) * (number - 7))));
     }
@@ -36,17 +33,25 @@ function getProbTrick(card, trump, totCards) {
 	number = 1 / (1 + Math.pow(Math.E, -((52 / (totCards * 4)) * (number - 7))));
     }
 
-    if (number >= 0.9) {
+    // sort the decimal percentage from before to be either a trick or not
+    // returns 1 if it will get a trick, returns 0 if not
+    if (number >= 0.82) {
 	number = 1;
     }
     else {
 	number = 0;
     }
-    console.log(number);
+    return number;
 }
 
-/*for (i=0; i<=hand.length; i++) {
-    var prob = getProbTrick(hand[i], "H", process.argv[2]);
-}*/
+// function that parses through the hand variable from earlier and determines the amount
+// of tricks based on the value returned from getProbTrick()
+function getTotalBid() {
+    var totalBid = 0;
+    for (i=0; i<hand.length-1; i++) {
+	totalBid = totalBid + getProbTrick(hand[i], 'H', process.argv[2]);
+    }
+    return totalBid;
+}
 
-getProbTrick(process.argv[2], "H", process.argv[3]);
+console.log(getTotalBid());
